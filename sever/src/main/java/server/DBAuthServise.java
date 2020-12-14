@@ -16,4 +16,9 @@ public class DBAuthServise implements AuthService {
     public boolean changeNick(String oldNickname, String newNickname) {
         return SQLHandler.changeNick(oldNickname, newNickname);
     }
+
+    @Override
+    public boolean changePass(String oldPass, String newPass) {
+        return SQLHandler.changePass(oldPass, newPass);
+    }
 }

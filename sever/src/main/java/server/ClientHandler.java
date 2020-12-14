@@ -14,6 +14,8 @@ public class ClientHandler {
 
     private String nickname;
     private String login;
+    private String password;
+
 
     public ClientHandler(Server server, Socket socket) {
         try {
@@ -100,7 +102,22 @@ public class ClientHandler {
                                     sendMsg("Не удалось изменить ник. Ник " + token[1] + " уже существует");
                                 }
                             }
-                            //==============//
+
+                            if (str.startsWith("/chpass ")) {
+                                String[] token = str.split(" ", 2);
+                                if (token.length < 2) {
+                                    continue;
+                                }
+                                if (token[1].contains(" ")) {
+                                    sendMsg("Пароль не может содержать пробелов");
+                                    continue;
+                                }
+                                if (server.getAuthService().changePass (this.password, token[1])) {
+                                    sendMsg("Пароль успешно изменен");
+                                } else {
+                                    sendMsg("Не удалось изменить пароль");
+                                }
+                            }
 
                         } else {
                             server.broadcastMsg(this, str);
@@ -140,4 +157,9 @@ public class ClientHandler {
     public String getLogin() {
         return login;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
 }
