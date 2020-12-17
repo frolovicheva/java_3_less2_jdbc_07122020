@@ -48,6 +48,7 @@ public class Controller implements Initializable {
 
     private boolean authenticated;
     private String nickname;
+    private String login;
     private Stage stage;
     private Stage regStage;
     private RegController regController;
@@ -62,6 +63,7 @@ public class Controller implements Initializable {
         clientList.setVisible(authenticated);
         if (!authenticated) {
             nickname = "";
+            ChatHistory.stopWriting();
         }
         setTitle(nickname);
         textArea.clear();
@@ -110,6 +112,8 @@ public class Controller implements Initializable {
                             if (str.startsWith("/authok ")) {
                                 nickname = str.split("\\s")[1];
                                 setAuthenticated(true);
+//                                textArea.appendText(ChatHistory.getLastLines (login));
+                                ChatHistory.createWriter (login);
                                 break;
                             }
 
@@ -138,14 +142,13 @@ public class Controller implements Initializable {
                             if (str.equals("/end")) {
                                 break;
                             }
-                            //==============//
                             if (str.startsWith("/yournickis ")) {
                                 nickname = str.split(" ")[1];
                                 setTitle(nickname);
                             }
-                            //==============//
                         } else {
                             textArea.appendText(str + "\n");
+                            ChatHistory.writeText (str);
                         }
                     }
                 } catch (RuntimeException e) {
@@ -182,7 +185,7 @@ public class Controller implements Initializable {
         if (socket == null || socket.isClosed()) {
             connect();
         }
-
+        login = loginField.getText().trim();
         String msg = String.format("/auth %s %s", loginField.getText().trim(), passwordField.getText().trim());
         try {
             out.writeUTF(msg);
