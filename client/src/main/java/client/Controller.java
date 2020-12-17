@@ -51,10 +51,8 @@ public class Controller implements Initializable {
     private Stage stage;
     private Stage regStage;
     private RegController regController;
-
-    ///==============///
     private String login;
-    ///==============///
+
 
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
@@ -66,9 +64,8 @@ public class Controller implements Initializable {
         clientList.setVisible(authenticated);
         if (!authenticated) {
             nickname = "";
-            ///==============///
-            History.stop();
-            ///==============///
+            ChatHistory.stop();
+
         }
         setTitle(nickname);
         textArea.clear();
@@ -117,10 +114,9 @@ public class Controller implements Initializable {
                             if (str.startsWith("/authok ")) {
                                 nickname = str.split("\\s")[1];
                                 setAuthenticated(true);
-                                ///==============///
-                                textArea.appendText(History.getLast100LinesOfHistory(login));
-                                History.start(login);
-                                ///==============///
+                                textArea.appendText(ChatHistory.getLastHistory (login));
+                                ChatHistory.createWriter (login);
+
                                 break;
                             }
 
@@ -149,17 +145,14 @@ public class Controller implements Initializable {
                             if (str.equals("/end")) {
                                 break;
                             }
-                            //==============//
                             if (str.startsWith("/yournickis ")) {
                                 nickname = str.split(" ")[1];
                                 setTitle(nickname);
                             }
-                            //==============//
+
                         } else {
                             textArea.appendText(str + "\n");
-                            ///==============///
-                            History.writeLine(str);
-                            ///==============///
+                            ChatHistory.writeText (str);
                         }
                     }
                 } catch (RuntimeException e) {
@@ -197,9 +190,7 @@ public class Controller implements Initializable {
             connect();
         }
 
-        ///==============///
         login = loginField.getText().trim();
-        ///==============///
 
         String msg = String.format("/auth %s %s", loginField.getText().trim(), passwordField.getText().trim());
         try {
