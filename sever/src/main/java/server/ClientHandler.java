@@ -49,6 +49,7 @@ public class ClientHandler {
                                         .getNicknameByLoginAndPassword(token[1], token[2]);
                                 if (newNick != null) {
                                     login = token[1];
+                                    password = token[2];
                                     if (!server.isloginAuthenticated(login)) {
                                         nickname = newNick;
                                         out.writeUTF("/authok " + nickname);
@@ -114,6 +115,7 @@ public class ClientHandler {
                                 }
                                 if (server.getAuthService().changePass (this.password, token[1])) {
                                     sendMsg("Пароль успешно изменен");
+                                    this.password = token[1];
                                 } else {
                                     sendMsg("Не удалось изменить пароль");
                                 }
@@ -158,8 +160,8 @@ public class ClientHandler {
         return login;
     }
 
-    public String getPassword() {
-        return password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
 
 }
