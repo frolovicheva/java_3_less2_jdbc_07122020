@@ -7,6 +7,7 @@ public class SQLHandler {
     private static PreparedStatement psGetNickname;
     private static PreparedStatement psRegistration;
     private static PreparedStatement psChangeNick;
+    private static PreparedStatement psChangePass;
 
     public static boolean connect() {
         try {
@@ -27,6 +28,7 @@ public class SQLHandler {
         psGetNickname = connection.prepareStatement("SELECT nickname FROM users WHERE login = ? AND password = ?;");
         psRegistration = connection.prepareStatement("INSERT INTO users(login, password, nickname) VALUES (? ,? ,? );");
         psChangeNick = connection.prepareStatement("UPDATE users SET nickname = ? WHERE nickname = ?;");
+        psChangePass = connection.prepareStatement("UPDATE users SET password = ? WHERE password = ?;");
     }
 
     public static String getNicknameByLoginAndPassword(String login, String password) {
@@ -69,11 +71,24 @@ public class SQLHandler {
         }
     }
 
+    public static boolean changePass(String oldPass, String newPass) {
+        try {
+            psChangePass.setString(1, newPass);
+            psChangePass.setString(2, oldPass);
+            psChangePass.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+
+    }
+
     public static void disconnect() {
         try {
             psRegistration.close();
             psGetNickname.close();
             psChangeNick.close();
+            psChangePass.close ();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,4 +98,6 @@ public class SQLHandler {
             e.printStackTrace();
         }
     }
+
+
 }
