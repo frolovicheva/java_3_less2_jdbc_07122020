@@ -24,7 +24,9 @@ public class ClientHandler {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            new Thread(() -> {
+//            new Thread(() -> {
+            server.getExecutorService ().execute (() -> {
+
                 try {
                     socket.setSoTimeout(120000);
                     //цикл аутентификации
@@ -84,7 +86,6 @@ public class ClientHandler {
                                 break;
                             }
 
-                            //==============//
                             if (str.startsWith("/chnick ")) {
                                 String[] token = str.split(" ", 2);
                                 if (token.length < 2) {
@@ -138,7 +139,8 @@ public class ClientHandler {
                         e.printStackTrace();
                     }
                 }
-            }).start();
+//            }).start();
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
