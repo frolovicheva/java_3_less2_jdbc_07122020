@@ -25,10 +25,7 @@ public class Server {
         clients = new CopyOnWriteArrayList<>();
 //        authService = new SimpleAuthService();
         executorService = Executors.newFixedThreadPool (60);
-/*Нынешняя реализация данного чата далека от WhatsUp, Viber и др. гигантов.
-Максимум вижу его применение в небольшой частной компании в качестве внутреннего офисного мессенджера.
-Уверена Java не сложно одновременно выполнять шт.50 потоков. Т.о. применение пула потоков смыла не имеет...
-Добавила в проект "для себя" в тренировочных целях. Все работает. */
+
 
         if (!SQLHandler.connect()) {
             throw new RuntimeException("Не удалось подключиться к БД");
