@@ -1,0 +1,8 @@
+дек 28, 2020 11:24:15 PM server.Server <init>
+INFO: server started!
+дек 28, 2020 11:29:19 PM server.Server <init>
+INFO: server started!
+дек 28, 2020 11:29:54 PM server.Server <init>
+INFO: client connected /127.0.0.1:52971
+дек 28, 2020 11:30:00 PM server.ClientHandler lambda$new$0
+INFO: Client disconnected!

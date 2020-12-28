@@ -28,12 +28,15 @@ public class TestArrAfterLast4 {
         this.expecteds = expected;
     }
 
-        @Test
+    @Test
     public void testArrs1(){
         Assert.assertArrayEquals (expecteds, MainForTest.newArrAfterLast4 (actuals));
     }
+
     @Test(expected = RuntimeException.class)
-    public void testArrs2(){
+    public void testArrs2() {
+        int[] arrHasNot4 = new int[]{1, 2, 3, 3, 3};
+        MainForTest.newArrAfterLast4 (arrHasNot4);
 
     }
 

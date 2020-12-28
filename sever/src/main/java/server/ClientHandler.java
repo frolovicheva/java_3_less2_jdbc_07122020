@@ -5,8 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientHandler {
+    private static final Logger logger = Logger.getLogger (ClientHandler.class.getName ());
     private Server server;
     private Socket socket;
     private DataInputStream in;
@@ -129,19 +132,23 @@ public class ClientHandler {
                 }catch (SocketTimeoutException e){
                     sendMsg("/end");
                 } catch (IOException e) {
+                    logger.log (Level.SEVERE,"", e);
                     e.printStackTrace();
                 } finally {
-                    System.out.println("Client disconnected!");
+//                    System.out.println("Client disconnected!");
+                    logger.info ("Client disconnected!");
                     server.unsubscribe(this);
                     try {
                         socket.close();
                     } catch (IOException e) {
+                        logger.log (Level.SEVERE,"", e);
                         e.printStackTrace();
                     }
                 }
 //            }).start();
             });
         } catch (IOException e) {
+            logger.log (Level.SEVERE,"", e);
             e.printStackTrace();
         }
     }
